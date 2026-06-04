@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+
+  squid:
+    image: ubuntu/squid:6.6-24.04_beta
+
+    restart: unless-stopped
+
+    volumes:
+      - ./squid/squid.conf:/etc/squid/squid.conf:ro
+
+    networks:
+      - internal
+      - egress
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    user: node
+
+    working_dir: /workspace
+
+    stdin_open: true
+    tty: true
+
+    environment:
+      HTTP_PROXY: http://squid:3128
+      HTTPS_PROXY: http://squid:3128
+      http_proxy: http://squid:3128
+      https_proxy: http://squid:3128
+
+    security_opt:
+      - no-new-privileges:true
+
+    volumes:
+      - workspace:/workspace
+      - ssh:/home/node/.ssh
+
+    networks:
+      - internal
+
+    restart: unless-stopped
+
+volumes:
+  workspace:
+
+  ssh:
+
+networks:
+  internal:
+    internal: true
+
+  egress:
