@@ -15,9 +15,8 @@ services:
       - egress
 
   dev:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
+    image: ronbantug/dev-container
 
     user: node
 
