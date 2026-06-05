@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ssh-keygen -t ed25519 -N "" -f ~/.ssh/github_repo_key -C "secure-dev"
+ssh-keygen -t ed25519 -N "" -f ~/.ssh/github_repo_key -C "dev-container"
 
 cat > ~/.ssh/config << 'EOF'
 Host github-project
