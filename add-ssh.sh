@@ -4,10 +4,14 @@ ssh-keygen -t ed25519 -N "" -f ~/.ssh/github_repo_key -C "dev-container"
 
 cat > ~/.ssh/config << 'EOF'
 Host github-project
-    HostName github.com
+    HostName ssh.github.com
+    Port 443
     User git
+
     IdentityFile ~/.ssh/github_repo_key
     IdentitiesOnly yes
+
+    ProxyCommand nc -X connect -x squid:3128 %h %p
 EOF
 
 chmod 700 ~/.ssh
