@@ -18,10 +18,18 @@ A VM is a better solution for isolating your host machine. The problem is that s
 
 ## Setup
 1. Clone this repo
-2. In your project folder, run `docker compose -p <your preferred name> up -d` in your terminal. Docker will pull the image **ronbantug/dev-container** from Docker hub.
-3. Run `docker exec -u root -it <name of dev container> chown -R node:node /workspace /home/node/.ssh` in a terminal. This will change the ownership of `/workspace` and `/home/node/.ssh` from **root** to **node**.
-4. Run `docker exec -it <name of dev container> bash /home/node/add-ssh.sh` in a terminal. This will create the SSH key. The public SSH key will be printed at the end.
-5. Add the SSH public key to Github. To add it to a single repo, go to the repo > Settings > Deploy Keys.
-6. To establish a connection with your docker container to Github, run `docker exec -it <name of dev container> ssh -T git@github-project` in a terminal. Type "yes" in the first question and you should receive a reply that you've successfully authenticated.
-7. In VSCode, press `Ctrl + Shift + P` and look for **Dev Containers: Attach to Running Container**. Select the dev container, not the squid container.
-8. Once you're inside the container, go to `/workspace` and then clone your Github repo through SSH using this format: `git clone git@github-project:github-username/repo-name.git`
+2. In your project folder, run `docker compose -p <your preferred name> up -d`  in your terminal. Docker will pull the image **ronbantug/dev-container** from Docker hub.
+4. Run `docker exec -u root -it <name of dev container> chown -R node:node /workspace /home/node/.ssh` in a terminal. This will change the ownership of `/workspace` and `/home/node/.ssh` from **root** to **node**.
+5. Run `docker exec -it <name of dev container> bash /home/node/add-ssh.sh` in a terminal. This will create the SSH key. The public SSH key will be printed at the end.
+6. Add the SSH public key to Github. To add it to a single repo, go to the repo > Settings > Deploy Keys.
+7. To establish a connection with your docker container to Github, run `docker exec -it <name of dev container> ssh -T git@github-project` in a terminal. Type "yes" in the first question and you should receive a reply that you've successfully authenticated.
+8. In VSCode, press `Ctrl + Shift + P` and look for **Dev Containers: Attach to Running Container**. Select the dev container, not the squid container.
+9. Once you're inside the container, go to `/workspace` and then clone your Github repo through SSH using this format: `git clone git@github-project:github-username/repo-name.git`
+10. Transfer all files from your the project folder to `/workspace`
+11. To create a docker container from the project files in the dev container, run this
+    ```
+    docker compose -p <name of dev container> run --rm builder \
+    docker compose -p <name of project container> \
+    -f /workspace/docker-compose.yml \
+    up -d
+    ```
