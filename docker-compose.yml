@@ -16,7 +16,7 @@ services:
 
   dev:
     build: .
-    image: ronbantug/dev-container
+    image: ronbantug/dev-container:v2
 
     user: node
 
